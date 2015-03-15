@@ -29,6 +29,7 @@ void setup() {
   pinMode(pinEncoder1A, INPUT);
   pinMode(pinEncoder1B, INPUT);
   PCintPort::attachPinChangeInterrupt(pinEncoder1A, riseEnc1A, RISING);
+  PCintPort::attachPinChangeInterrupt(pinEncoder2A, riseEnc2A, RISING);
   
   Serial.begin(115200);
 }
@@ -50,11 +51,20 @@ void loop() {
 }
 
 void riseEnc1A() {
-  if (digitalRead(pinEncoder1A) == HIGH) {
+  if (digitalRead(pinEncoder1B) == HIGH) {
     counterEnc1++;
   }
   else {
     counterEnc1--;
+  }
+}
+
+void riseEnc2A() {
+  if (digitalRead(pinEncoder2B) == HIGH) {
+    counterEnc2++;
+  }
+  else {
+    counterEnc2--;
   }
 }
 
