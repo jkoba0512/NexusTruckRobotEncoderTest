@@ -16,6 +16,9 @@ const int pinEncoder2B = 7;
 uint32_t counterEnc1 = 0;
 uint32_t counterEnc2 = 0;
 
+boolean clockwiseMotor1 = true;
+boolean clockwiseMoter2 = true;
+
 void setup() {
   // change PWM freq
   TCCR1B=TCCR1B&0xf8|0x01;  // Pin9,Pin10 PWM 31250Hz
@@ -43,9 +46,12 @@ void loop() {
   digitalWrite(pinMotor2Dir, HIGH);
   analogWrite(pinMotor2PWM, 200);
 
-  Serial.println(counterEnc1);
+  Serial.print(counterEnc1);
+  Serial.print(", ");
+  Serial.println(counterEnc2);
   
   counterEnc1 = 0;
+  counterEnc2 = 0;
   
   delay(1000);
 }
