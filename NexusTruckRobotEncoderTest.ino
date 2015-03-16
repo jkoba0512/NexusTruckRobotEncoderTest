@@ -1,4 +1,8 @@
 // Nexus Truck Robot
+//
+// Gear ratio: 64:1
+// Resolution of encoder: 12CPR
+//
 // Pin 4, 5: encoder for motor 1
 // Pin 6, 7: encoder for motor 2
 
@@ -50,8 +54,8 @@ void loop() {
   Serial.print(", ");
   Serial.println(counterEnc2);
   
-  counterEnc1 = 0;
-  counterEnc2 = 0;
+//  counterEnc1 = 0;
+//  counterEnc2 = 0;
   
   delay(1000);
 }
