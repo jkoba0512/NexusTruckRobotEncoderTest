@@ -8,7 +8,8 @@
 
 #include <PinChangeInt.h>
 
-typedef enum {CW, CCW} MotorDir;
+const int CW = 0;
+const int CCW = 1;
 
 const int pinMotorPWM[3] = {100, 3, 11};
 const int pinMotorDir[3] = {100, 2, 12};
@@ -18,10 +19,13 @@ const int pinEncoder1B = 5;
 const int pinEncoder2A = 6;
 const int pinEncoder2B = 7;
 
-int counterEnc[3] = {0, 0, 0};
+int encCounter[3] = {0, 0, 0};
 
-MotorDir motorDir[3] = {CW, CW, CW};
+int motorDir[3] = {CW, CW, CW};
 int motorPWM[3] = {0, 0, 0}; 
+
+void setMotorCommand(int num, int dir, int pwm) {
+}
 
 void setup() {
   // change PWM freq
@@ -50,22 +54,22 @@ void loop() {
   digitalWrite(pinMotorDir[2], HIGH);
   analogWrite(pinMotorPWM[2], 200);
 
-  Serial.print(counterEnc[1]);
+  Serial.print(encCounter[1]);
   Serial.print(", ");
-  Serial.println(counterEnc[2]);
+  Serial.println(encCounter[2]);
   
-  counterEnc[1] = counterEnc[2] = 0;
+  encCounter[1] = encCounter[2] = 0;
   
   delay(1000);
 }
 
 void riseEnc1A() {
-  if (digitalRead(pinEncoder1B) == HIGH) counterEnc[1]++;
-  else counterEnc[1]--;
+  if (digitalRead(pinEncoder1B) == HIGH) encCounter[1]++;
+  else encCounter[1]--;
 }
 
 void riseEnc2A() {
-  if (digitalRead(pinEncoder2B) == HIGH) counterEnc[2]++;
-  else counterEnc[2]--;
+  if (digitalRead(pinEncoder2B) == HIGH) encCounter[2]++;
+  else encCounter[2]--;
 }
 
