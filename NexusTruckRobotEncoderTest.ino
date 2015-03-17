@@ -24,7 +24,10 @@ int encCounter[3] = {0, 0, 0};
 int motorDir[3] = {CW, CW, CW};
 int motorPWM[3] = {0, 0, 0}; 
 
-void setMotorCommand(int num, int dir, int pwm) {
+inline void setMotorCommand(int num, int dir, int pwm) {
+  if (dir == CW) digitalWrite(pinMotorDir[num], HIGH);
+  else digitalWrite(pinMotorDir[num], LOW);
+  analogWrite(pinMotorPWM[num], pwm);
 }
 
 void setup() {
@@ -47,12 +50,10 @@ void setup() {
 
 void loop() {
   // motor1
-  digitalWrite(pinMotorDir[1], HIGH);
-  analogWrite(pinMotorPWM[1], 200);
+  setMotorCommand(1, CW, motorPWM[1]);
 
   // motor2
-  digitalWrite(pinMotorDir[2], HIGH);
-  analogWrite(pinMotorPWM[2], 200);
+  setMotorCommand(2, CW, motorPWM[2]);
 
   Serial.print(encCounter[1]);
   Serial.print(", ");
