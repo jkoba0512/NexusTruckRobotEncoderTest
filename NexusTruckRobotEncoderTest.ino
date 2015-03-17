@@ -24,6 +24,9 @@ int encCounter[3] = {0, 0, 0};
 int motorDir[3] = {CW, CW, CW};
 int motorPWM[3] = {0, 0, 0}; 
 
+const int Ts = 100000;  // sampling period in usec
+long int startTime, endTime;
+
 inline void setMotorCommand(int num, int dir, int pwm) {
   if (dir == CW) digitalWrite(pinMotorDir[num], HIGH);
   else digitalWrite(pinMotorDir[num], LOW);
@@ -49,6 +52,8 @@ void setup() {
 }
 
 void loop() {
+  startTime = micros();
+  
   for (int i = 1; i < 3; i++) {
     setMotorCommand(i, motorDir[i], motorPWM[i]);
   }
@@ -84,7 +89,8 @@ void loop() {
   
   encCounter[1] = encCounter[2] = 0;
   
-  delay(1000);
+  endTime = micros();
+  delayMicroseconds(max(0, startTime+Ts-endTime));
 }
 
 void riseEnc1A() {
