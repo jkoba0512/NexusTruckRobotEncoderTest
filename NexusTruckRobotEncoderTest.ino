@@ -49,11 +49,34 @@ void setup() {
 }
 
 void loop() {
-  // motor1
-  setMotorCommand(1, CW, motorPWM[1]);
-
-  // motor2
-  setMotorCommand(2, CW, motorPWM[2]);
+  for (int i = 1; i < 3; i++) {
+    setMotorCommand(i, motorDir[i], motorPWM[i]);
+  }
+  
+  if (Serial.available() > 0) {
+    switch (Serial.read()) {
+      case 'a':
+        motorPWM[1] += 10;
+        break;
+      case 's':
+        motorPWM[1] = 0;
+        break;
+      case 'd':
+        motorPWM[1] -= 10;
+        break;
+      case 'j':
+        motorPWM[2] += 10;
+        break;
+      case 'k':
+        motorPWM[2] = 0;
+        break;
+      case 'l':
+        motorPWM[2] -= 10;
+        break;
+      default:
+        ;
+    }
+  }
 
   Serial.print(encCounter[1]);
   Serial.print(", ");
