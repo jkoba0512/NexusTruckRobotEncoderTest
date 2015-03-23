@@ -8,9 +8,6 @@
 
 #include <PinChangeInt.h>
 
-const int CW = 0;
-const int CCW = 1;
-
 const int pinMotorPWM[3] = {100, 3, 11};
 const int pinMotorDir[3] = {100, 2, 12};
 
@@ -21,16 +18,15 @@ const int pinEncoder2B = 7;
 
 int encCounter[3] = {0, 0, 0};
 
-int motorDir[3] = {CW, CW, CW};
-int motorPWM[3] = {0, 0, 0}; 
+int motorCommand[3] = {0, 0, 0};  // CCW if it's negative
 
 const int Ts = 100000;  // sampling period in usec
 long int startTime, endTime;
 
-inline void setMotorCommand(int num, int dir, int pwm) {
-  if (dir == CW) digitalWrite(pinMotorDir[num], HIGH);
-  else digitalWrite(pinMotorDir[num], LOW);
-  analogWrite(pinMotorPWM[num], pwm);
+inline void setMotorCommand(int num, int com) {
+  if (com < 0) digitalWrite(pinMotorDir[num], LOW);
+  else digitalWrite(pinMotorDir[num], HIGH);
+  analogWrite(pinMotorPWM[num], abs(com));
 }
 
 void setup() {
@@ -55,28 +51,28 @@ void loop() {
   startTime = micros();
   
   for (int i = 1; i < 3; i++) {
-    setMotorCommand(i, motorDir[i], motorPWM[i]);
+    setMotorCommand(i, motorCommand[i]);
   }
   
   if (Serial.available() > 0) {
     switch (Serial.read()) {
       case 'a':
-        motorPWM[1] += 10;
+        motorCommand[1] += 30;
         break;
       case 's':
-        motorPWM[1] = 0;
+        motorCommand[1] = 0;
         break;
       case 'd':
-        motorPWM[1] -= 10;
+        motorCommand[1] -= 30;
         break;
       case 'j':
-        motorPWM[2] += 10;
+        motorCommand[2] += 30;
         break;
       case 'k':
-        motorPWM[2] = 0;
+        motorCommand[2] = 0;
         break;
       case 'l':
-        motorPWM[2] -= 10;
+        motorCommand[2] -= 30;
         break;
       default:
         ;
