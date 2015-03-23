@@ -81,7 +81,11 @@ void loop() {
 
   Serial.print(encCounter[1]);
   Serial.print(", ");
-  Serial.println(encCounter[2]);
+  Serial.print(encCounter[2]);
+  Serial.print(", ");
+  Serial.print(motorCommand[1]);
+  Serial.print(", ");
+  Serial.println(motorCommand[2]);
   
   encCounter[1] = encCounter[2] = 0;
   
